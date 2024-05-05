@@ -2,3 +2,5 @@ inflector_path: "data/inflector.json"
 stop_word_dictionary_path: "data/stop_word_dictionary.json"
 raw_dataset_path: "data/raw_dataset"
 nlp_model: "es_dep_news_trf"
+transformation_rate: 0.15
+target_path: "data/synthetic_dataset.json"

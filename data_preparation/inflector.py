@@ -10,7 +10,7 @@ from spacy.tokens import Span
 class Inflector:
     MORPHING_TAGS = ['NOUN', 'VERB']
 
-    def __init__(self, inflections: Dict[str: Dict[str: List[str]]]):
+    def __init__(self, inflections: Dict[str, Dict[str, List[str]]]):
         self.inflections = inflections
 
     def random_inflection(self, lemma: str, excluded_word: str) -> Optional[str]:
@@ -31,10 +31,10 @@ class Inflector:
         return cls(inflections)
 
     @classmethod
-    def create_from_docs(cls, docs: Iterable[Span]):
+    def create_from_sentences(cls, sentences: Iterable[Span]):
         inflections = {tag: {} for tag in cls.MORPHING_TAGS}
-        for doc in docs:
-            for token in doc:
+        for sentence in sentences:
+            for token in sentence:
                 if token.tag in cls.MORPHING_TAGS:
                     inflection = inflections[token.tag].get(token.lemma_, [])
                     inflection.append(token.text)

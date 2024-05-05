@@ -34,10 +34,10 @@ class StopWordDictionary:
         return cls(stop_words_by_pos)
 
     @classmethod
-    def create_from_docs(cls, docs: Iterable[Span]):
+    def create_from_sentences(cls, sentences: Iterable[Span]):
         stop_words_by_pos = {}
-        for doc in docs:
-            for token in doc:
+        for sentence in sentences:
+            for token in sentence:
                 if token.text.lower in cls.STOP_WORDS:
                     pos_stop_words = stop_words_by_pos.get(token.pos_, [])
                     pos_stop_words.append(token.text)
