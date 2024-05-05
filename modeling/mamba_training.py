@@ -1,25 +1,25 @@
 # This is a code sketch, nothing here is to be fully trusted
 
-from datasets import load_dataset
 from trl import SFTTrainer
 from peft import LoraConfig
 from transformers import AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, \
     DataCollatorForTokenClassification
 
-tokenizer = AutoTokenizer.from_pretrained("state-spaces/mamba-130m-hf")
+tokenizer_name = 'state-spaces/mamba-130m-hf'
+
+tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
 
 id2label = {
     0: "label-0",
     1: "label-1",
 }  # TODO: define our own labels
 label2id = {v: k for k, v in id2label.items()}
-model = AutoModelForTokenClassification.from_pretrained("state-spaces/mamba-130m-hf", num_labels=len(id2label),
+model = AutoModelForTokenClassification.from_pretrained(tokenizer_name, num_labels=len(id2label),
                                                         id2label=id2label,
                                                         label2id=label2id)
-'''
-TODO: make our own dataset, we need to check how hugging-face likes it 
-see https://huggingface.co/docs/transformers/v4.39.3/en/tasks/token_classification#a
-'''
+
+# TODO: make our own dataset, we need to check how hugging-face likes it
+# see https://huggingface.co/docs/transformers/v4.39.3/en/tasks/token_classification#a
 dataset = {}
 
 training_args = TrainingArguments(
