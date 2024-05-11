@@ -14,8 +14,9 @@ class Inflector:
     def __init__(self, inflections: Dict[str, Dict[str, List[str]]]):
         self.inflections = inflections
 
-    def random_inflection(self, lemma: str, excluded_word: str) -> Optional[str]:
-        candidate_morphs = [morph for morph in self.inflections.get(lemma, []) if morph != excluded_word]
+    def random_inflection(self, lemma: str, tag: str, excluded_word: str) -> Optional[str]:
+        tag_inflections = self.inflections.get(tag, {})
+        candidate_morphs = [morph for morph in tag_inflections.get(lemma, []) if morph != excluded_word]
         if candidate_morphs:
             return choice(candidate_morphs)
         return None

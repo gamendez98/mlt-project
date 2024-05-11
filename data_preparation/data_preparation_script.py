@@ -16,7 +16,7 @@ from data_preparation.stop_word_dictionary import StopWordDictionary
 
 def sentence_generator(raw_dataset_path: Path, nlp: Language) -> Iterable[Span]:
     raw_data = pd.read_csv(raw_dataset_path)
-    for doc in nlp.pipe(raw_data.head(2).text):
+    for doc in nlp.pipe(raw_data.text):
         for sentence in doc.sents:
             yield sentence
 
@@ -44,7 +44,7 @@ def create_or_load_sentence_modifier(inflector_path: Path, stop_word_dictionary_
                                      nlp_model: Language, transformation_rate: float):
     inflector = create_or_load_inflector(inflector_path, raw_dataset_path, nlp_model)
     stop_word_dictionary = create_or_load_stop_word_dictionary(stop_word_dictionary_path, raw_dataset_path, nlp_model)
-    return SentenceModifier(nlp_model, inflector, stop_word_dictionary, transformation_rate, transformations=['transform_morphology'])
+    return SentenceModifier(nlp_model, inflector, stop_word_dictionary, transformation_rate)
 
 
 def create_synthetic_dataset(configuration_path='data_preparation/data_preparation_config.yaml'):

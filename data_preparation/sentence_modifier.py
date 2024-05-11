@@ -77,7 +77,7 @@ class SentenceModifier:
         candidate_positions = list(self.candidates_for_morphology(words, tokens, labels))
         position = choice(candidate_positions)
         token = tokens[position]
-        new_morph = self.inflector.random_inflection(token.lemma_, words[position])
+        new_morph = self.inflector.random_inflection(token.lemma_, token.tag_, words[position])
         if new_morph:
             labels[position] = f'{REPLACE}{words[position]}'
             words[position] = new_morph
