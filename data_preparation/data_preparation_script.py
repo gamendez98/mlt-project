@@ -63,9 +63,11 @@ def create_synthetic_dataset(configuration_path='data_preparation/data_preparati
     dataset = []
     print('Generating synthetic dataset')
     for sentence in tqdm(sentence_generator(configuration['raw_dataset_path'], nlp_model)):
+        original_words = [token.text for token in sentence]
         words, tokens, labels = sentence_modifier.randomly_transform(sentence)
         dataset.append({
-            'words': words,
+            'original_words': original_words,
+            'modified_words': words,
             'labels': labels
         })
     print()

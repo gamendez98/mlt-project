@@ -111,7 +111,7 @@ class SentenceModifier:
         split_point = position + 1
         words = words[:split_point] + [added_word] + words[split_point:]
         tokens = tokens[:split_point] + [None] + tokens[split_point:]
-        labels = words[:split_point] + [DELETE] + words[split_point:]
+        labels = labels[:split_point] + [DELETE] + labels[split_point:]
         return words, tokens, labels
 
     @register_as_transformation
