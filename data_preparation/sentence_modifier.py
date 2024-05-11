@@ -57,9 +57,9 @@ class SentenceModifier:
         self.transformations = transformations or TRANSFORMATION_METHODS
 
     def randomly_transform(self, sentence: Span) -> (List[str], List[Optional[Token]], List[str]):
-        words = [token.text for token in sentence]
-        tokens = list(sentence)
-        labels = [KEEP] * len(sentence)
+        words = self.sentence_words(sentence)
+        tokens = [None] + list(sentence)
+        labels = [KEEP] * len(words)
         number_of_transformations = int(len(sentence) * self.transformation_rate)
         candidate_transformations = list(self.transformations)
         for _ in range(number_of_transformations):
@@ -154,3 +154,7 @@ class SentenceModifier:
         positions = {i for i in range(1, len(labels))}  # the position 0 belongs to padding
         positions -= affected_positions
         return positions
+
+    @staticmethod
+    def sentence_words(sentence: Span):
+        return [PADDING] + [token.text for token in sentence]
