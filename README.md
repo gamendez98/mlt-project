@@ -11,10 +11,10 @@ After this you can install the spacy model to be used for the synthetic data gen
 
 ## Dataset creation
 
-To create the synthetic dataset run `python data_preparation/data_preparation_script.py`. This script will also create
+To create the synthetic dataset run `python data_preparation/synthetic_dataset_creation.py`. This script will also create
 an `Inflector` and a `StopWordDictionary` this objects info will also be saved each in their respective paths.
 
-This script will read the configuration file `data_preparation/data_preparation_config.yaml`. This file describes the
+This script will read the configuration file `data_preparation/synthetic_dataset_config.yaml`. This file describes the
 parameters:
 
 - `inflector_path`: Path to save and load the `Inflector` from

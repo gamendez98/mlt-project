@@ -1,12 +1,12 @@
 from typing import List, Set, Optional
 
-import spacy
 from spacy import Language
 from spacy.tokens import Token, Span
 from random import choice
 
 from data_preparation.inflector import Inflector
 from data_preparation.stop_word_dictionary import StopWordDictionary
+from grammar_error_correction_tools.grammar_error_corrector import KEEP, REPLACE, APPEND, DELETE, SPLIT, PADDING
 
 # %%
 
@@ -30,16 +30,6 @@ def raise_out_of_candidates(method):
         return candidates
 
     return wrapper
-
-
-# %%
-
-PADDING = '@@PADDING@@'
-DELETE = '$DELETE'
-KEEP = '$KEEP'
-APPEND = '$APPEND_'
-SPLIT = '$SPLIT_'
-REPLACE = 'REPLACE_'
 
 
 # %%
