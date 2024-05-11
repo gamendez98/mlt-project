@@ -4,6 +4,7 @@ from pathlib import Path
 from random import choice
 from typing import List, Dict, Iterable
 
+from datasets import tqdm
 from nltk.corpus import stopwords
 from spacy.tokens import Span
 
@@ -35,9 +36,11 @@ class StopWordDictionary:
     @classmethod
     def create_from_sentences(cls, sentences: Iterable[Span]):
         stop_words_by_pos = {}
-        for sentence in sentences:
+        for sentence in tqdm(sentences):
             for token in sentence:
-                if token.text.lower in cls.STOP_WORDS:
-                    pos_stop_words = stop_words_by_pos.get(token.pos_, [])
-                    pos_stop_words.append(token.text)
+                if token.text.lower() in cls.STOP_WORDS:
+                    pos_stop_words = stop_words_by_pos.get(token.pos_, set())
+                    pos_stop_words.add(token.text)
+                    stop_words_by_pos[token.pos_] = pos_stop_words
+        stop_words_by_pos = {pos: list(stop_words) for pos, stop_words in stop_words_by_pos.items()}
         return cls(stop_words_by_pos)
