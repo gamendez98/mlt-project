@@ -29,3 +29,51 @@ parameters:
 
 The raw data-file must be a csv file containing a columns titled `text` that contains all the examples to create the
 synthetic dataset
+
+### Synthetic data
+
+The result of running the previous commands will be a dataset with the structure
+
+```json
+[
+  {
+    "original_words": ["@@PADDING@@", "El", "ama", "los", "gatos", "."],
+    "modified_words": ["@@PADDING@@", "El", "ama", "gatos", "."],
+    "labels": ["$KEEP", "$KEEP", "$APPEND_los", "$KEEP", "$KEEP"]
+  },
+  
+  {}
+  
+]
+```
+
+Where `original_words` has the sequence of tokens as they came from the raw data, `modified_words` are the tokens after
+injecting errors into the sentence and `labels` corresponds to the necessary corrections to go back to the original.
+
+These corrections can be:
+- `$KEEP`: No change is needed in this position
+- `$DELETE`: The word corresponding to this position has to be removed
+- `$APPEND_<word>`: append the token `<word>` after the position of this label 
+- `$SPLIT_<place>`: split the word at this position at the character `<place>`
+- `$REPLACE_<word>`: replace the word at this position for `<word>`
+
+
+## Grammar error correction
+
+This repository also provides an easy way to correct make the corrections described in the synthetic dataset like so:
+```python
+from grammar_error_correction.grammar_error_correction import correct_all_errors
+
+words= ["@@PADDING@@", "El", "ama", "gatos", "."]
+labels= ["$KEEP", "$KEEP", "$APPEND_los", "$KEEP", "$KEEP"]
+
+corrected_words = correct_all_errors(words, labels)
+```
+
+This functionality can be used to check the correctness of the dataset
+
+```python
+from data_preparation.debug_tools import check_synthetic_dataset_correctness
+
+check_synthetic_dataset_correctness('path/to/syn_data.json')
+```

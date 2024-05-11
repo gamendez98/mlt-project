@@ -6,7 +6,7 @@ from random import choice
 
 from data_preparation.inflector import Inflector
 from data_preparation.stop_word_dictionary import StopWordDictionary
-from grammar_error_correction_tools.grammar_error_corrector import KEEP, REPLACE, APPEND, DELETE, SPLIT, PADDING
+from grammar_error_correction.grammar_error_correction import KEEP, REPLACE, APPEND, DELETE, SPLIT, PADDING
 
 # %%
 
