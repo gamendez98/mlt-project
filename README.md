@@ -12,7 +12,7 @@ After this you can install the spacy model to be used for the synthetic data gen
 ## Dataset creation
 
 To create the synthetic dataset run `python data_preparation/synthetic_dataset_creation.py`. This script will also create
-an `Inflector` and a `StopWordDictionary` this objects info will also be saved each in their respective paths.
+an `Inflector` and a `StopWordDictionary` these objects will be saved as json files.
 
 This script will read the configuration file `data_preparation/synthetic_dataset_config.yaml`. This file describes the
 parameters:
@@ -32,7 +32,7 @@ synthetic dataset
 
 ### Synthetic data
 
-The result of running the previous commands will be a dataset with the structure
+The result of running the synthetic dataset script will be a dataset with the structure
 
 ```json
 [
@@ -60,7 +60,7 @@ These corrections can be:
 
 ## Grammar error correction
 
-This repository also provides an easy way to correct make the corrections described in the synthetic dataset like so:
+This repository also provides an easy way to make the corrections described in the synthetic dataset like so:
 ```python
 from grammar_error_correction.grammar_error_correction import correct_all_errors
 
