@@ -17,7 +17,10 @@ class StopWordDictionary:
 
     def random_stop_word(self, pos: str, excluded_word):
         for i in range(3):
-            stop_word = choice(self.stop_words_by_pos[pos])
+            stop_word_choices = self.stop_words_by_pos.get(pos)
+            if not stop_word_choices:
+                break
+            stop_word = choice(stop_word_choices)
             if stop_word != excluded_word:
                 return stop_word
         return None

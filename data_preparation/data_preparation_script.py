@@ -8,6 +8,7 @@ import spacy
 import yaml
 from spacy import Language
 from spacy.tokens import Span
+from tqdm import tqdm
 
 from data_preparation.inflector import Inflector
 from data_preparation.sentence_modifier import SentenceModifier
@@ -16,7 +17,7 @@ from data_preparation.stop_word_dictionary import StopWordDictionary
 
 def sentence_generator(raw_dataset_path: Path, nlp: Language) -> Iterable[Span]:
     raw_data = pd.read_csv(raw_dataset_path)
-    for doc in nlp.pipe(raw_data.text):
+    for doc in nlp.pipe(raw_data.text, batch_size=16):
         for sentence in doc.sents:
             yield sentence
 
@@ -60,13 +61,14 @@ def create_synthetic_dataset(configuration_path='data_preparation/data_preparati
         transformation_rate=configuration['transformation_rate']
     )
     dataset = []
-    for sentence in sentence_generator(configuration['raw_dataset_path'], nlp_model):
+    print('Generating synthetic dataset')
+    for sentence in tqdm(sentence_generator(configuration['raw_dataset_path'], nlp_model)):
         words, tokens, labels = sentence_modifier.randomly_transform(sentence)
         dataset.append({
             'words': words,
-            'tokens': tokens,
             'labels': labels
         })
+    print()
     target_path = configuration['target_path']
     os.makedirs(os.path.dirname(target_path), exist_ok=True)
     with open(target_path, 'w') as file:

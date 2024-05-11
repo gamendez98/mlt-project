@@ -42,6 +42,7 @@ class Inflector:
                     inflection.add(token.text)
                     inflection.add(token.lemma_)
                     inflections[token.tag_][token.lemma_] = inflection
+        print()
         for tag_inflections in inflections.values():
             for lemma in tag_inflections:
                 tag_inflections[lemma] = list(tag_inflections[lemma])
