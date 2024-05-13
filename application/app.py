@@ -1,4 +1,15 @@
+from typing import Union
+
+from fastapi import FastAPI
+
+app = FastAPI()
 
 
-# this is a dummy file just to show where the app should go
+@app.get("/")
+def ok():
+    return {"status": "OK"}
 
+
+@app.get("/items/{item_id}")
+def get_corrections(item_id: int, q: Union[str, None] = None):
+    return {"item_id": item_id, "q": q}
