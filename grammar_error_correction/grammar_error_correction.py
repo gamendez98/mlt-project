@@ -16,6 +16,7 @@ def correct_all_errors(words: List[str], labels: List[str]):
             pass
         elif label == DELETE:
             words, labels = correct_delete(words, labels, label_position)
+            label_position -= 1
         elif label.startswith(APPEND):
             words, labels = correct_append(words, labels, label_position)
         elif label.startswith(SPLIT):
@@ -45,8 +46,8 @@ def correct_delete(words: List[str], labels: List[str], label_position: int) -> 
 def correct_split(words: List[str], labels: List[str], label_position: int) -> (List[str], List[str]):
     split_position = int(labels[label_position].replace(SPLIT, ''))
     split_word = [
-        words[:split_position],
-        words[split_position:]
+        words[label_position][:split_position],
+        words[label_position][split_position:]
     ]
     modified_words = words[:label_position] + split_word + words[label_position + 1:]
     modified_labels = labels[:label_position] + [KEEP, KEEP] + labels[label_position + 1:]
