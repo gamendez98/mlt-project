@@ -77,3 +77,7 @@ from data_preparation.debug_tools import check_synthetic_dataset_correctness
 
 check_synthetic_dataset_correctness('path/to/syn_data.json')
 ```
+
+## API
+
+to deploy the api run `fastapi dev application/app.py`
