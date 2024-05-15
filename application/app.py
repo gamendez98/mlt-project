@@ -1,11 +1,14 @@
 from typing import Union
+import sys
 
 import spacy
 from fastapi import FastAPI
 
-app = FastAPI()
+from grammar_error_correction.grammar_error_correction import GrammarErrorCorrector
 
-nlp = spacy.load("es_dep_news_trf")
+app = FastAPI()
+MODEL_PATH = 'model/bert_ner_model'
+gec = GrammarErrorCorrector(MODEL_PATH)
 
 
 @app.get("/")
@@ -15,13 +18,10 @@ def ok():
 
 @app.post("/correct-sentence")
 def get_corrections(sentence: str):
-    # TODO: add actual correction logic
-    return {"sentence": "Esta es la oracion despues de ser corregida"}
+    return {"sentence": gec.correct_sentence(sentence)}
 
 
 @app.post("/error-corrections")
 def get_corrections(sentence: str):
-    # TODO: add actual correction logic
-    doc = nlp(sentence)
-    dummy_corrections = ['$APPEND_palabra', '$DELETE', '$SPLIT_2', '$REPLACE_palabra'] + (['$KEEP'] * 100)
-    return {"words": ['@@PADDING@@'] + [token.text for token in doc], 'labels': dummy_corrections[:len(doc)]}
+    words, labels = gec.get_word_labels(sentence)
+    return {"words": words, 'labels': labels}
