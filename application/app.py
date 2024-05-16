@@ -1,7 +1,3 @@
-from typing import Union
-import sys
-
-import spacy
 from fastapi import FastAPI
 
 from grammar_error_correction.grammar_error_correction import GrammarErrorCorrector
