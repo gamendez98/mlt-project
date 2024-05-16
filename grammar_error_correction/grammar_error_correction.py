@@ -9,6 +9,7 @@ KEEP = '$KEEP'
 APPEND = '$APPEND_'
 SPLIT = '$SPLIT_'
 REPLACE = '$REPLACE_'
+WORD_START = '##'
 
 
 class GrammarErrorCorrector:
@@ -24,8 +25,10 @@ class GrammarErrorCorrector:
 
     def get_word_labels(self, sentence: str) -> (List[str], List[str]):
         ner_tagged_sentence = self.tagging_pipeline(f'{PADDING} {sentence}')
+        words = [token['word'] for token in ner_tagged_sentence]
+        cleaned_words = [word[2:] if word.startswith(WORD_START) else word for word in words]
         return (
-            [token['word'] for token in ner_tagged_sentence],
+            cleaned_words,
             [token['entity'] for token in ner_tagged_sentence],
         )
 
