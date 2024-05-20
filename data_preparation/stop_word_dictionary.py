@@ -16,6 +16,7 @@ class StopWordDictionary:
         self.stop_words_by_pos = stop_words_by_pos
 
     def random_stop_word(self, pos: str, excluded_word):
+        # we retry instead of filtering the candidates to get better speeds
         for i in range(3):
             stop_word_choices = self.stop_words_by_pos.get(pos)
             if not stop_word_choices:

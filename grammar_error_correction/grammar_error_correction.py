@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Set
 
 from nltk import TreebankWordDetokenizer
 from transformers import pipeline
@@ -15,12 +15,15 @@ WORD_START = '##'
 class GrammarErrorCorrector:
 
     def __init__(self, model_path):
-        self.tagging_pipeline = pipeline('ner', model=model_path)
+        if model_path:
+            self.tagging_pipeline = pipeline('ner', model=model_path)
+        else:
+            self.tagging_pipeline = None
         self.de_tokenizer = TreebankWordDetokenizer()
 
     def correct_sentence(self, sentence: str) -> str:
         words, labels = self.get_word_labels(sentence)
-        corrected_words = self.correct_all_errors(words, labels)
+        corrected_words, _ = self.correct_label_errors(words, labels)
         return self.de_tokenizer.detokenize(corrected_words[1:])
 
     def get_word_labels(self, sentence: str) -> (List[str], List[str]):
@@ -32,11 +35,13 @@ class GrammarErrorCorrector:
             [token['entity'] for token in ner_tagged_sentence],
         )
 
-    def correct_all_errors(self, words: List[str], labels: List[str]):
+    def correct_label_errors(self, words: List[str], labels: List[str],
+                             labels_to_ignore: Set[str] = None) -> (List[str], List[str]):
         label_position = 0
+        labels_to_ignore = labels_to_ignore or {}
         while label_position < len(labels):
             label = labels[label_position]
-            if label == KEEP:
+            if label == KEEP or label in labels_to_ignore:
                 pass
             elif label == DELETE:
                 words, labels = self.correct_delete(words, labels, label_position)
@@ -48,7 +53,7 @@ class GrammarErrorCorrector:
             elif label.startswith(REPLACE):
                 words, labels = self.correct_replace(words, labels, label_position)
             label_position += 1
-        return words
+        return words, labels
 
     @staticmethod
     def correct_append(words: List[str], labels: List[str], label_position: int) -> (List[str], List[str]):

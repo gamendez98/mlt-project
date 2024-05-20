@@ -3,7 +3,7 @@ import json
 import pandas as pd
 from datasets import tqdm
 
-from grammar_error_correction.grammar_error_correction import correct_all_errors
+from grammar_error_correction.grammar_error_correction import GrammarErrorCorrector
 
 
 def print_attributes(doc):
@@ -28,10 +28,11 @@ def print_synthetic_datum(datum):
 
 
 def check_datum_correctness(datum):
+    gec = GrammarErrorCorrector(None)
     modified_words = datum['modified_words']
     original_words = datum['original_words']
     labels = datum['labels']
-    corrected_words = correct_all_errors(modified_words, labels)
+    corrected_words, _ = gec.correct_label_errors(modified_words, labels)
     is_correct = corrected_words == original_words
     if not is_correct:
         print(f"""
