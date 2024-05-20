@@ -1,4 +1,4 @@
-import gradio_demo as gr
+import gradio as gr
 
 from grammar_error_correction.grammar_error_correction import GrammarErrorCorrector
 
