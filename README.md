@@ -20,6 +20,8 @@ parameters:
 - `inflector_path`: Path to save and load the `Inflector` from
 - `stop_word_dictionary_path`: Path to save and load the `StopWordDictionary` from
 - `raw_dataset_path`: Path to the raw texts
+- `label_vocab_size`: maximum number of labels to get on the output dataset
+- `input_entry_limit`: number of entries to take from the raw dataset
 - `nlp_model`: spacy model name to be used for the data generation
 - `transformation_rate`: Fraction of tokens that the script will try to transform and label. The actual proportion of
   transformed tokens may be lower since some times transformations are not possible
@@ -78,6 +80,6 @@ from data_preparation.debug_tools import check_synthetic_dataset_correctness
 check_synthetic_dataset_correctness('path/to/syn_data.json')
 ```
 
-## API
+## APP
 
-to deploy the api run `fastapi dev application/app.py`
+to deploy the api run `python application/gradio_demo.py`

@@ -20,7 +20,7 @@ from grammar_error_correction.grammar_error_correction import GrammarErrorCorrec
 
 def sentence_generator(raw_dataset_path: str, nlp: Language, input_entry_limit: int) -> Iterable[Span]:
     texts = datasets.load_dataset(raw_dataset_path)['train'][:input_entry_limit]['text']
-    for doc in nlp.pipe(texts, batch_size=32):
+    for doc in nlp.pipe(texts, batch_size=32, n_process=-1):
         for sentence in doc.sents:
             yield sentence
 
