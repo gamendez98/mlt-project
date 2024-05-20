@@ -65,7 +65,7 @@ def truncate_label_vocab(dataset: List[dict], label_vocab_size: int) -> List[dic
     labels_to_keep = set(label_counts.head(label_vocab_size).label)
     print(f'Keeping the {len(labels_to_keep)} most common labels')
     percentage_kept = label_counts.head(label_vocab_size).label_count.sum() / label_counts.label_count.sum()
-    print(f'{100 * percentage_kept:.3}% of labels remain unaffected')
+    print(f'{percentage_kept:.1%} of labels remain unaffected')
     gec = GrammarErrorCorrector(None)
     for entry in dataset:
         words, labels = entry['modified_words'], entry['labels']
