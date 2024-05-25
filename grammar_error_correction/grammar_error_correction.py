@@ -3,23 +3,24 @@ from typing import List, Set
 from nltk import TreebankWordDetokenizer
 from transformers import pipeline
 
-PADDING = '@@PADDING@@'
+from grammar_error_correction.token_realignment import TokenWordAlignment, PADDING
+
 DELETE = '$DELETE'
 KEEP = '$KEEP'
 APPEND = '$APPEND_'
 SPLIT = '$SPLIT_'
 REPLACE = '$REPLACE_'
-WORD_START = '##'
 
 
 class GrammarErrorCorrector:
 
-    def __init__(self, model_path):
+    def __init__(self, model_path: str, token_word_alignment: TokenWordAlignment):
         if model_path:
             self.tagging_pipeline = pipeline('ner', model=model_path)
         else:
             self.tagging_pipeline = None
         self.de_tokenizer = TreebankWordDetokenizer()
+        self.token_word_alignment = token_word_alignment
 
     def correct_sentence(self, sentence: str) -> str:
         words, labels = self.get_word_labels(sentence)
@@ -28,12 +29,7 @@ class GrammarErrorCorrector:
 
     def get_word_labels(self, sentence: str) -> (List[str], List[str]):
         ner_tagged_sentence = self.tagging_pipeline(f'{PADDING} {sentence}')
-        words = [token['word'] for token in ner_tagged_sentence]
-        cleaned_words = [word[2:] if word.startswith(WORD_START) else word for word in words]
-        return (
-            cleaned_words,
-            [token['entity'] for token in ner_tagged_sentence],
-        )
+        return self.token_word_alignment.token_to_word_realignment(ner_tagged_sentence)
 
     def correct_label_errors(self, words: List[str], labels: List[str],
                              labels_to_ignore: Set[str] = None) -> (List[str], List[str]):
