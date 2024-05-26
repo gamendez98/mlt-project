@@ -27,8 +27,8 @@ def print_synthetic_datum(datum):
     print(df)
 
 
-def check_datum_correctness(datum):
-    gec = GrammarErrorCorrector(None)
+def check_datum_correctness(datum, token_alignment):
+    gec = GrammarErrorCorrector(None, token_alignment)
     modified_words = datum['modified_words']
     original_words = datum['original_words']
     labels = datum['labels']
@@ -44,7 +44,7 @@ corrected_words = {corrected_words}
     return is_correct
 
 
-def check_synthetic_dataset_correctness(synthetic_dataset_path):
+def check_synthetic_dataset_correctness(synthetic_dataset_path, token_alignment):
     data = json.load(open(synthetic_dataset_path))
     for datum in tqdm(data):
-        assert check_datum_correctness(datum)
+        assert check_datum_correctness(datum, token_alignment)

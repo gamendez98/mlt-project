@@ -82,10 +82,12 @@ check_synthetic_dataset_correctness('path/to/syn_data.json')
 
 ## Model Training
 
-The notebooks and scripts for fine-tuning the transformers models are in the `modelling` folder. First, you have to generate the training, evaluation and test datasets with `organize_training_data.ipynb`, assuming the synthetic dataset is already created. Two models are fine-tuned:
+The notebooks and scripts for fine-tuning the transformers models are in the `modelling` folder. First, you have to
+generate the training, evaluation and test datasets with `organize_training_data.ipynb`, assuming the synthetic dataset
+is already created. Two models are fine-tuned:
 
 1. BETO (Spanish BERT) is finetuned on `bert_finetune.ipynb`.
-2. An Spanish RoBERTa is finetuned via two possible ways: a notebook, `roberta_finetune.ipynb`, or its script equivalent, `roberta_finetune_script.py`. Since RoBERTa is way bigger than BETO, we recommend the script approach, so it can train on the background. It may be necessary to uncomment the `model_id` line that refers to `"MMG/xlm-roberta-large-ner-spanish"`, which is the base Hugging Face model. The script can be run with `python roberta_finetune_script.py`.
+2. A Spanish RoBERTa is finetuned via two possible ways: a notebook, `roberta_finetune.ipynb`, or its script equivalent, `roberta_finetune_script.py`. Since RoBERTa is way bigger than BETO, we recommend the script approach, so it can train on the background. It may be necessary to uncomment the `model_id` line that refers to `"MMG/xlm-roberta-large-ner-spanish"`, which is the base Hugging Face model. The script can be run with `python roberta_finetune_script.py`.
 
 The evaluation over the test dataset is carried on in `testing_model.ipynb`.
 
