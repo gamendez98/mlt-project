@@ -37,7 +37,7 @@ def raise_out_of_candidates(method):
 
 
 class SentenceModifier:
-    SEMANTIC_TAGS = ['NOUN', 'VERB', 'ADJ', 'ADV']
+    SEMANTIC_TAGS = ['NOUN', 'VERB', 'ADJ', 'ADV', 'PROPN']
 
     def __init__(self, nlp_model: Language, inflector: Inflector, stop_word_dictionary: StopWordDictionary,
                  transformation_rate: float = 0.15, transformations: Optional[List] = None):

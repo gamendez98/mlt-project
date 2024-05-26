@@ -5,7 +5,7 @@ from grammar_error_correction.token_realignment import RobertaTokenWordAlignment
 
 
 def load_model(model_name):
-    MODEL_PATH = f"../Project_Testing/{model_name}"
+    MODEL_PATH = f"model/{model_name}"
     if model_name.startswith("roberta"):
         TOKEN_ALIGNMENT = RobertaTokenWordAlignment()
     elif model_name.startswith("bert"):
@@ -82,5 +82,6 @@ with gr.Blocks(css=custom_css) as demo:
     check_btn.click(fn=verify_text, inputs=[text_input, model_selector], outputs=result_output)
     clean_btn.click(fn=clear_text, inputs=None, outputs=[text_input, result_output])
 
-demo.launch(server_name="0.0.0.0", server_port=7861)
-# demo.launch(server_port=7681) # local check
+if __name__ == '__main__':
+    # demo.launch(server_name="0.0.0.0", server_port=7861)
+    demo.launch(server_port=7681) # local check

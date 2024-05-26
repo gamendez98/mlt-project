@@ -14,7 +14,7 @@ REPLACE = '$REPLACE_'
 
 class GrammarErrorCorrector:
 
-    def __init__(self, model_path: Optional[str], token_word_alignment: TokenWordAlignment):
+    def __init__(self, model_path: Optional[str], token_word_alignment: Optional[TokenWordAlignment]):
         if model_path:
             self.tagging_pipeline = pipeline('ner', model=model_path)
         else:
