@@ -91,6 +91,6 @@ is already created. Two models are fine-tuned:
 
 The evaluation over the test dataset is carried on in `testing_model.ipynb`.
 
-## pp
+## App
 
 To deploy the app run `python application/app.py`. A notebook version of the app is also available on the same folder.
