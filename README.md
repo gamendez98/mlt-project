@@ -93,4 +93,4 @@ The evaluation over the test dataset is carried on in `testing_model.ipynb`.
 
 ## APP
 
-to deploy the api run `python application/gradio_demo.py`
+to deploy the api run `python application/app.py`. A notebook version of the app is also available on the same folder.
