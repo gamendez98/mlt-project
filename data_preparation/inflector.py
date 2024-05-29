@@ -26,6 +26,10 @@ class Inflector:
         with open(path, 'w') as file:
             json.dump(self.inflections, file)
 
+    @property
+    def tags(self) -> List[str]:
+        return list(self.inflections.keys())
+
     @classmethod
     def load_from_json(cls, path: Path):
         with open(path, 'r') as file:
@@ -34,14 +38,16 @@ class Inflector:
 
     @classmethod
     def create_from_sentences(cls, sentences: Iterable[Span]):
-        inflections = {tag: {} for tag in cls.MORPHING_TAGS}
+        inflections = {}
         for sentence in tqdm(sentences):
             for token in sentence:
-                if token.tag_ in cls.MORPHING_TAGS:
-                    inflection = inflections[token.tag_].get(token.lemma_, set())
+                if token.lemma_ != token.text:
+                    tag_inflections = inflections.get(token.tag_, {})
+                    inflection = tag_inflections.get(token.lemma_, set())
                     inflection.add(token.text)
                     inflection.add(token.lemma_)
-                    inflections[token.tag_][token.lemma_] = inflection
+                    tag_inflections[token.lemma_] = inflection
+                    inflections[token.tag_] = tag_inflections
         print()
         for tag_inflections in inflections.values():
             for lemma in tag_inflections:

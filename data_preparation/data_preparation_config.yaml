@@ -2,7 +2,9 @@ inflector_path: "data/inflector.json"
 stop_word_dictionary_path: "data/stop_word_dictionary.json"
 raw_dataset_path: "spanish_billion_words"
 label_vocab_size: 5000
-input_entry_limit: 1000000
+input_entry_limit: 9000000
+data_chunk_size: 2000000
+spacy_batch_size: 500000
 nlp_model: "es_core_news_sm"
-transformation_rate: 0.3
-target_path: "data/synthetic_dataset.json"
+transformation_rate: 0.5
+target_path: "data/synthetic_dataset"

@@ -117,7 +117,7 @@ class SentenceModifier:
     @raise_out_of_candidates
     def candidates_for_morphology(self, words: List[str], tokens: List[Optional[Token]], labels: List[str]) -> Set[int]:
         morphable_positions = {i for i, token in enumerate(tokens) if
-                               token and token.tag_ in self.inflector.MORPHING_TAGS}
+                               token and token.tag_ in self.inflector.tags}
         return self.un_affected_positions(labels) & morphable_positions
 
     @raise_out_of_candidates
@@ -129,7 +129,7 @@ class SentenceModifier:
     @raise_out_of_candidates
     def candidates_for_elimination(self, words: List[str], tokens: List[Optional[Token]],
                                    labels: List[str]) -> Set[int]:
-        non_semantic_positions = {i for i, token in enumerate(tokens) if token and token.tag_ not in self.SEMANTIC_TAGS}
+        non_semantic_positions = {i for i, word in enumerate(words) if word in self.stop_word_dictionary.STOP_WORDS}
         return self.un_affected_positions(labels) & non_semantic_positions
 
     @raise_out_of_candidates
